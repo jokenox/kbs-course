@@ -22,9 +22,9 @@ public class App {
     container = jadeRuntime.createMainContainer(jadeProfile);
     
     try{
-      AgentController controller = container.createNewAgent("receptor", "agents.Receiver", null);
+      AgentController controller = container.createNewAgent("Receptor", "agents.Receiver", null);
       controller.start();
-      controller = container.createNewAgent("emisor", "agents.Sender", null);
+      controller = container.createNewAgent("Emisor", "agents.Sender", null);
       controller.start();
     } catch(Exception e){
       e.printStackTrace();

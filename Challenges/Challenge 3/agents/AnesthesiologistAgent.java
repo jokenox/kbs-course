@@ -5,7 +5,7 @@ import jade.core.behaviours.*;
 import jade.lang.acl.*;
 import net.sf.clipsrules.jni.*;
  
-public class ChiefSurgeonAgent extends Agent {
+public class AnesthesiologistAgent extends Agent {
   private Environment clips;
    
   protected void setup() {
@@ -24,34 +24,32 @@ public class ChiefSurgeonAgent extends Agent {
 
       if (mensaje!= null) {
         
-        if (mensaje.toString() == "(patient anesthetize)") {
-          System.out.println(getLocalName() + ": Anesteciando paciente");
+        System.out.println(getLocalName() + ": Anesteciando paciente");
 
-          try {
-            clips.eval("(clear)");
+        try {
+          clips.eval("(clear)");
 
-            clips.eval("(assert " + mensaje.getContent() + " )");
+          clips.eval("(assert " + mensaje.getContent() + " )");
 
-            clips.eval("(defrule r1 (patient anesthetize) =>  (assert (patient is-anesthetized)))");
+          clips.build("(defrule r1 (patient anesthetize) =>  (assert (patient is-anesthetized)))");
 
-            clips.eval("(run)");
+          clips.eval("(run)");
 
-            //Envio de mensaje a anestesista
-            AID id = new AID();
-            id.setLocalName("cirujano");
+          //Envio de mensaje a anestesista
+          AID id = new AID();
+          id.setLocalName("Cirujano");
 
-            ACLMessage mensaje = new ACLMessage(ACLMessage.INFORM);
+          mensaje = new ACLMessage(ACLMessage.INFORM);
 
-            mensaje.setSender(getAID());
-            mensaje.addReceiver(id);
-            mensaje.setContent("(patient is-anesthetized)");
+          mensaje.setSender(getAID());
+          mensaje.addReceiver(id);
+          mensaje.setContent("(patient is-anesthetized)");
 
-            System.out.println(getLocalName() + ": Paciente anesteciado");
+          System.out.println(getLocalName() + ": Paciente anesteciado");
 
-            send(mensaje);
-          } catch (Exception e){
-            System.out.println (e.getMessage());
-          }
+          send(mensaje);
+        } catch (Exception e){
+          System.out.println (e.getMessage());
         }
 
         fin = true;

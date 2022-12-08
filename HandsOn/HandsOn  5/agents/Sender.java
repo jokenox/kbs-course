@@ -17,7 +17,7 @@ public class Sender extends Agent {
       System.out.println(getLocalName() + ": Preparandose para enviar un mensaje a receptor");
 
       AID id = new AID();
-      id.setLocalName("receptor");
+      id.setLocalName("Receptor");
 
       // Creación del objeto ACLMessage
       ACLMessage mensaje = new ACLMessage(ACLMessage.INFORM);
@@ -33,11 +33,17 @@ public class Sender extends Agent {
 
       System.out.println(getLocalName() + ": Mensaje enviado a receptor");
 
+      myAgent.doDelete();
+
       fin = true;
     }
 
     public boolean done() {
       return fin;
+    }
+
+    public int onEnd() {
+      return super.onEnd();
     }
   }
 

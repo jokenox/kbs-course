@@ -27,24 +27,31 @@ public class Patient extends Agent {
       mensaje.setContent("(sintoma vomito) (sintoma fiebre) (sintoma ictericia) (sintoma dolor-abdominal)");
 
       //Envia el mensaje a los destinatarios
-      id.setLocalName("endocrinologo");
+      id.setLocalName("Endocrinologo");
       mensaje.addReceiver(id);
-
-      id.setLocalName("cardiologo");
-      mensaje.addReceiver(id);
-
-      id.setLocalName("gastroenterologo");
-      mensaje.addReceiver(id);
-      
       send(mensaje);
 
+      id.setLocalName("Cardiologo");
+      mensaje.addReceiver(id);
+      send(mensaje);
+
+      id.setLocalName("Gastroenterologo");
+      mensaje.addReceiver(id);
+      send(mensaje);
+      
       System.out.println(getLocalName() + ": Mensaje enviado a doctores");
+
+      myAgent.doDelete();
 
       fin = true;
     }
 
     public boolean done() {
       return fin;
+    }
+
+    public int onEnd() {
+      return super.onEnd();
     }
   }
 

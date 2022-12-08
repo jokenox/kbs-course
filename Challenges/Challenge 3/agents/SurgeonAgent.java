@@ -5,7 +5,7 @@ import jade.core.behaviours.*;
 import jade.lang.acl.*;
 import net.sf.clipsrules.jni.*;
  
-public class ChiefSurgeonAgent extends Agent {
+public class SurgeonAgent extends Agent {
   private Environment clips;
    
   protected void setup() {
@@ -24,32 +24,30 @@ public class ChiefSurgeonAgent extends Agent {
 
       if (mensaje!= null) {
         
-        if (mensaje.toString() == "(patient is-anesthetized)") {
-          try {
-            clips.eval("(clear)");
+        try {
+          clips.eval("(clear)");
 
-            clips.eval("(assert " + mensaje.getContent() + " )");
+          clips.eval("(assert " + mensaje.getContent() + " )");
 
-            clips.eval("(defrule r1 (patient is-anesthetized) =>  (assert (surgery can-start)))");
+          clips.build("(defrule r1 (patient is-anesthetized) =>  (assert (surgery can-start)))");
 
-            clips.eval("(run)");
+          clips.eval("(run)");
 
-            //Envio de mensaje a anestesista
-            AID id = new AID();
-            id.setLocalName("jefe-cirugia");
+          //Envio de mensaje a anestesista
+          AID id = new AID();
+          id.setLocalName("Jefe-Cirugia");
 
-            ACLMessage mensaje = new ACLMessage(ACLMessage.INFORM);
+          mensaje = new ACLMessage(ACLMessage.INFORM);
 
-            mensaje.setSender(getAID());
-            mensaje.addReceiver(id);
-            mensaje.setContent("(surgery can-start)");
+          mensaje.setSender(getAID());
+          mensaje.addReceiver(id);
+          mensaje.setContent("(surgery can-start)");
 
-            System.out.println(getLocalName() + ": La cirugia puede comenzar");
+          System.out.println(getLocalName() + ": La cirugia puede comenzar");
 
-            send(mensaje);
-          } catch (Exception e){
-            System.out.println (e.getMessage());
-          }
+          send(mensaje);
+        } catch (Exception e){
+          System.out.println (e.getMessage());
         }
 
         fin = true;

@@ -17,7 +17,7 @@ public class NurseAgent extends Agent {
       System.out.println(getLocalName() + ": Preparando paciente");
 
       AID id = new AID();
-      id.setLocalName("jefe-cirugia");
+      id.setLocalName("Jefe-Cirugia");
 
       // Creación del objeto ACLMessage
       ACLMessage mensaje = new ACLMessage(ACLMessage.INFORM);

@@ -2,7 +2,7 @@ package agents;
  
 import jade.core.*;
 import jade.core.behaviours.*;
-import jade.lang.acl.*;
+import jade.lang.acl.ACLMessage;
 import net.sf.clipsrules.jni.*;
  
 public class ChiefSurgeonAgent extends Agent {
@@ -23,37 +23,34 @@ public class ChiefSurgeonAgent extends Agent {
       ACLMessage mensaje = receive();
 
       if (mensaje!= null) {
+        //System.out.println("Mensaje recibido: " + mensaje.getContent());
         
-        if (mensaje.toString() == "(patient ready)") {
-          System.out.println("Patient ready");
+        //System.out.println("Mensaje recibido: " + mensaje.getContent());
 
-          try {
-            clips.eval("(clear)");
+        try {
+          clips.eval("(clear)");
 
-            clips.eval("(assert " + mensaje.getContent() + " )");
+          clips.eval("(assert " + mensaje.getContent() + " )");
 
-            clips.eval("(defrule r1 (patient ready) =>  (assert (patient anesthetize)))");
+          clips.build("(defrule r1 (patient ready) =>  (assert (patient anesthetize)))");
 
-            clips.eval("(run)");
+          clips.eval("(run)");
 
-            //Envio de mensaje a anestesista
-            AID id = new AID();
-            id.setLocalName("anestesista");
+          //Envio de mensaje a anestesista
+          AID id = new AID();
+          id.setLocalName("Anestesista");
 
-            ACLMessage mensaje = new ACLMessage(ACLMessage.INFORM);
+          ACLMessage mensajeEnviar = new ACLMessage(ACLMessage.INFORM);
 
-            mensaje.setSender(getAID());
-            mensaje.addReceiver(id);
-            mensaje.setContent("(patient anesthetize)");
+          mensajeEnviar.setSender(getAID());
+          mensajeEnviar.addReceiver(id);
+          mensajeEnviar.setContent("(patient anesthetize)");
 
-            System.out.println(getLocalName() + ": Anesteciar paciente");
+          System.out.println(getLocalName() + ": Anesteciar paciente");
 
-            send(mensaje);
-          } catch (Exception e){
-            System.out.println (e.getMessage());
-          }
-        } else if (mensaje.toString() == "(surgery can-start)") {
-          System.out.println(getLocalName() + ": Que comience la cirugia");
+          send(mensajeEnviar);
+        } catch (Exception e){
+          System.out.println (e.getMessage());
         }
 
         fin = true;

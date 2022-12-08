@@ -22,19 +22,16 @@ public class App {
     container = jadeRuntime.createMainContainer(jadeProfile);
     
     try{
-      AgentController controller = container.createNewAgent("anestesista", "agents.AnesthesiologistAgent", null);
+      AgentController controller = container.createNewAgent("Anestesista", "agents.AnesthesiologistAgent", null);
       controller.start();
 
-      controller = container.createNewAgent("cirujano", "agents.SurgeonAgent", null);
+      controller = container.createNewAgent("Cirujano", "agents.SurgeonAgent", null);
       controller.start();
 
-      controller = container.createNewAgent("enfermera", "agents.NurseAgent", null);
+      controller = container.createNewAgent("Jefe-Cirugia", "agents.ChiefSurgeonAgent", null);
       controller.start();
 
-      controller = container.createNewAgent("jefe-cirugia", "agents.ChiefSurgeonAgent", null);
-      controller.start();
-
-      controller = container.createNewAgent("paciente", "agents.PatientAgent", null);
+      controller = container.createNewAgent("Enfermera", "agents.NurseAgent", null);
       controller.start();
     } catch(Exception e){
       e.printStackTrace();
